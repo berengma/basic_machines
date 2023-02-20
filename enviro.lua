@@ -121,7 +121,7 @@ minetest.register_node("basic_machines:enviro", {
 					
 					if admin == 1 then -- only admin can change skybox
 						local sky = enviro.skyboxes[skybox];
-						player:set_sky(0,sky["type"],sky["tex"]);
+						player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
 					end
 				end
 			end
@@ -223,7 +223,7 @@ local reset_player_physics = function(player)
 	if player then
 		player:set_physics_override({speed=1,jump=1,gravity=1}) -- value set for extreme test space spawn
 		local skybox = enviro.skyboxes["default"]; -- default skybox is "default"
-		player:set_sky(0,skybox["type"],skybox["tex"]);
+		player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
 	end
 end
 
@@ -235,11 +235,11 @@ enviro_adjust_physics = function(player) -- adjust players physics/skybox 1 seco
 			if pos.y > space_start then -- is player in space or not?
 				player:set_physics_override({speed=1,jump=0.5,gravity=0.1}) -- value set for extreme test space spawn
 				local skybox = enviro.skyboxes["space"];
-				player:set_sky(0,skybox["type"],skybox["tex"]);
+				player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
 			else
 				player:set_physics_override({speed=1,jump=1,gravity=1}) -- value set for extreme test space spawn
 				local skybox = enviro.skyboxes["default"];
-				player:set_sky(0,skybox["type"],skybox["tex"]);
+				player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
 			end
 		end
 	end)
