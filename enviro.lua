@@ -5,16 +5,10 @@
 
 local enviro = {};
 enviro.skyboxes = {
-<<<<<<< HEAD
 	["default"]={type = "regular", tex = {}}, 
 	["space"]={type="skybox", tex={"sky_pos_y.png","sky_neg_y.png","sky_pos_z.png","sky_neg_z.png","sky_neg_x.png","sky_pos_x.png",}}, -- need textures installed!
 	--["space"]={type="skybox", tex={"basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png",}}, -- need textures installed!
 	["caves"]={type = "cavebox", tex = {"black.png","black.png","black.png","black.png","black.png","black.png",}},
-=======
-	["default"]={type = "regular", textures = {}}, 
-	["space"]={type="skybox", clouds = false,textures={"basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png",}}, -- need textures installed!
-	["caves"]={type = "cavebox", textures = {"black.png","black.png","black.png","black.png","black.png","black.png",}},
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 	};
 	
 local space_start = 1100;
@@ -129,11 +123,7 @@ minetest.register_node("basic_machines:enviro", {
 					
 					if admin == 1 then -- only admin can change skybox
 						local sky = enviro.skyboxes[skybox];
-<<<<<<< HEAD
 						player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
-=======
-						player:set_sky(sky);
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 					end
 				end
 			end
@@ -234,11 +224,7 @@ local reset_player_physics = function(player)
 	if player then
 		player:set_physics_override({speed=1,jump=1,gravity=1}) -- value set for extreme test space spawn
 		local skybox = enviro.skyboxes["default"]; -- default skybox is "default"
-<<<<<<< HEAD
 		player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
-=======
-		player:set_sky(skybox);
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 	end
 end
 
@@ -250,19 +236,11 @@ enviro_adjust_physics = function(player) -- adjust players physics/skybox 1 seco
 			if pos.y > space_start then -- is player in space or not?
 				player:set_physics_override({speed=1,jump=0.5,gravity=0.1}) -- value set for extreme test space spawn
 				local skybox = enviro.skyboxes["space"];
-<<<<<<< HEAD
 				player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
 			else
 				player:set_physics_override({speed=1,jump=1,gravity=1}) -- value set for extreme test space spawn
 				local skybox = enviro.skyboxes["default"];
 				player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
-=======
-				player:set_sky(skybox);
-			else
-				player:set_physics_override({speed=1,jump=1,gravity=1}) -- value set for extreme test space spawn
-				local skybox = enviro.skyboxes["default"];
-				player:set_sky(skybox);
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 			end
 		end
 	end)
@@ -298,26 +276,7 @@ minetest.register_globalstep(function(dtime)
 		for _,player in pairs(players) do
 			local name = player:get_player_name();
 			local pos = player:get_pos();
-<<<<<<< HEAD
 			local inspace=0; if pos.y>space_start then inspace = 1 end
-=======
-			local inspace=0; 
-			if pos.y>space_start then 
-				inspace = 1
-				if pos.y > exclusion_height then
-					local exclude = exclusion_zone[name];
-					if exclude == nil then
-						exclusion_zone[name] = not minetest.get_player_privs(name).include;
-						exclude = exclusion_zone[name]
-					end
-					if exclude then 
-						minetest.chat_send_all("exclusion zone alert: " .. name .. " " .. pos.x .. " " .. pos.y .. " " .. pos.z )
-						minetest.log("exclusion zone alert: " .. name .. " " .. pos.x .. " " .. pos.y .. " " .. pos.z )
-						player:set_pos({x=0,y=-100,z=0})
-					end
-				end
-			end
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 			local inspace0=enviro_space[name];
 			if inspace~=inspace0 then -- only adjust player enviroment ONLY if change occured ( earth->space or space->earth !)
 				enviro_space[name] = inspace;
