@@ -30,13 +30,8 @@ basic_machines.hardness["basic_machines:battery_0"]=0.;
 basic_machines.hardness["basic_machines:battery_1"]=0.;
 basic_machines.hardness["basic_machines:battery_2"]=0.;
 basic_machines.hardness["basic_machines:detector"]=0.;
-<<<<<<< HEAD
 basic_machines.hardness["basic_machines:generator"]=999999.;
 basic_machines.hardness["basic_machines:clockgen"]=999999.;
-=======
-basic_machines.hardness["basic_machines:generator"]=999999.; -- can only place generator by hand
-basic_machines.hardness["basic_machines:clockgen"]=0.;
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 basic_machines.hardness["basic_machines:ball_spawner"]=0.;
 basic_machines.hardness["basic_machines:light_on"]=0.;
 basic_machines.hardness["basic_machines:light_off"]=0.;
@@ -78,14 +73,10 @@ basic_machines.plant_table = {["farming:seed_barley"]="farming:barley_1",["farmi
 ["farming:seed_cotton"]="farming:cotton_1",["farming:cucumber"]="farming:cucumber_1",["farming:grapes"]="farming:grapes_1",
 ["farming:melon_slice"]="farming:melon_1",["farming:potato"]="farming:potato_1",["farming:pumpkin_slice"]="farming:pumpkin_1",
 ["farming:raspberries"]="farming:raspberry_1",["farming:rhubarb"]="farming:rhubarb_1",["farming:tomato"]="farming:tomato_1",
-<<<<<<< HEAD
 ["farming:seed_wheat"]="farming:wheat_1",["farming:seed_hemp"]="farming:hemp_1",["farming:chili_pepper"]="farming:chili_1",
 ["farming:garlic_clove"]="farming:garlic_1",["farming:onion"]="farming:onion_1",["farming:peppercorn"]="farming:pepper_1",
 ["farming:pineapple_top"]="farming:pineapple_1",["farming:potato"]="farming:potato_1",["farming:pea_pod"]="farming:pea_1",
 ["farming:beetroot"]="farming:beetroot_1",["farming:seed_oat"]="farming:oat_1",["farming:seed_rice"]="farming:rice_1",["farming:seed_rye"]="farming:rye_1"}
-=======
-["farming:seed_wheat"]="farming:wheat_1",["farming:seed_rice"]="farming:rice_1"}
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 
 -- list of objects that cant be teleported with mover
 basic_machines.no_teleport_table = {
@@ -561,11 +552,7 @@ minetest.register_node("basic_machines:mover", {
 								teleport_any = true;
 								inv:add_item("main", stack);
 							end
-<<<<<<< HEAD
 							--obj:setpos({x=0,y=0,z=0}); --Gundul says:management was fixed--  patch for dupe, might not be needed if future minetest object management is better
-=======
-							obj:setpos({x=0,y=0,z=0});
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 							obj:remove();
 						end
 					end
@@ -876,11 +863,7 @@ minetest.register_node("basic_machines:mover", {
 			end
 		end 
 		if not(source_chest) and not(harvest) then
-<<<<<<< HEAD
 			if dig then minetest.check_for_falling(pos1) end
-=======
-			if dig then check_for_falling(pos1) end -- pre 5.0.0 nodeupdate(pos1)
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 			minetest.set_node(pos1, {name = "air"});
 			end
 		end,
@@ -902,18 +885,10 @@ minetest.register_node("basic_machines:mover", {
 	
 })
 
-<<<<<<< HEAD
 
 -- moverfiltercheck
 
 local check_mover_filter = function(mode, filter, mreverse) -- mover input validation, is it correct node
-=======
--- anal retentive change in minetest 5.0.0 to minetest 5.1.0 changing unknown node warning into crash
--- forcing many checks with all possible combinations + adding many new crash combinations
-
-local check_mover_filter = function(mode, filter, mreverse) -- mover input validation, is it correct node
-	if filter == "" then return true end -- allow clearing filter
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 	if mode == "normal" or mode == "dig" then
 		local nodedef = minetest.registered_nodes[filter]
 		if mreverse==1 and basic_machines.plant_table[filter] then return true end -- allow farming
@@ -1357,13 +1332,8 @@ minetest.register_node("basic_machines:detector", {
 	
 	effector = {
 		action_on = function (pos, node,ttl)
-<<<<<<< HEAD
             
             if type(ttl)~="number" then ttl = 1 end
-=======
-			
-			if type(ttl)~="number" then ttl = 1 end
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 			if ttl<0 then return end
 			
 			local meta = minetest.get_meta(pos);
@@ -1597,21 +1567,7 @@ minetest.register_node("basic_machines:clockgen", {
 	groups = {cracky=3},
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)
-<<<<<<< HEAD
 	
-=======
-		if minetest.find_node_near(pos, 15, {"basic_machines:clockgen"}) then
-			minetest.set_node(pos,{name="air"})
-			minetest.add_item(pos,"basic_machines:clockgen")
-			minetest.chat_send_player(placer:get_player_name(),"#clock generator: interference from nearby clock generator detected.")
-			return
-		end
-		
-		local meta =  minetest.get_meta(pos);
-		local owner = placer:get_player_name() or "";
-		local privs = minetest.get_player_privs(owner);
-		if privs.machines then meta:set_int("machines",1) end
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 		
 		local name = placer:get_player_name()
 		local pinv = placer:get_inventory()
@@ -2347,17 +2303,10 @@ minetest.register_on_player_receive_fields(function(player,formname,fields)
 				--filter
 				local prefer = fields.prefer or "";
 				if meta:get_string("prefer")~=prefer then
-<<<<<<< HEAD
 					prefer = check_abuse(prefer) 
 					if check_mover_filter(meta:get_string("mode"), prefer, meta:get_int("reverse")) then
 						meta:set_string("prefer",prefer);
                         else
-=======
-					-- input validation
-					if check_mover_filter(meta:get_string("mode"), prefer, meta:get_int("reverse")) then
-						meta:set_string("prefer",prefer);
-					else
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 						minetest.chat_send_player(name,"MOVER: wrong filter - must be name of existing minetest block") 
 					end
 				end
@@ -2379,19 +2328,11 @@ minetest.register_on_player_receive_fields(function(player,formname,fields)
 			end
 			
 		elseif fields.mode then
-<<<<<<< HEAD
             if not check_mover_filter(fields.mode, meta:get_string("prefer"), meta:get_string("reverse")) then
 				minetest.chat_send_player(name,"MOVER: wrong filter - must be name of existing minetest block") 
 				return -- input validation
 			end
             
-=======
-			if not check_mover_filter(fields.mode, meta:get_string("prefer"), meta:get_string("reverse")) then
-				minetest.chat_send_player(name,"MOVER: wrong filter - must be name of existing minetest block") 
-				return -- input validation
-			end
-			
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 			meta:set_string("mode",fields.mode);
 			local form = get_mover_form(pos,player)
 			minetest.show_formspec(player:get_player_name(), "basic_machines:mover_"..minetest.pos_to_string(pos), form)
