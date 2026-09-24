@@ -54,8 +54,6 @@ local function make_it_noclip(name)
 	minetest.override_item(name,{walkable = false}); -- cant be walked on
 end 
 
-make_it_noclip("doors:trapdoor_open");
-make_it_noclip("doors:trapdoor_steel_open");
 
 -- minetest bug: using override_item  to change group.level = 99 does nothing - door still diggable
 -- using minetest.register_node(":"..name, table2) with table2.group.level = 99 does work. why?
