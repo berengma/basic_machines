@@ -105,14 +105,9 @@ battery_recharge = function(pos)
 	end
 	
 	local full_coef = math.floor(energy/capacity*3);
-<<<<<<< HEAD
 
 	if capacity == 0 then full_coef = 0 end
 	if full_coef > 2 then full_coef = 2 end
-=======
-    if capacity == 0 then full_coef = 0 end
-    if full_coef > 2 then full_coef = 2 end
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 	minetest.swap_node(pos,{name = "basic_machines:battery_".. full_coef}) -- graphic energy
 	
 	return energy; -- new battery energy level
@@ -229,11 +224,7 @@ minetest.register_node("basic_machines:battery_0", {
 					
 					if energy>=1 then -- no need to recharge yet, will still work next time
 						local full_coef_new = math.floor(energy/capacity*3); if full_coef_new>2 then full_coef_new = 2 end
-<<<<<<< HEAD
 						if capacity == 0 then full_coef_new = 0 end
-=======
-                        if capacity == 0 then full_coef_new = 0 end
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 						pos.y = pos.y-1;
 						if full_coef_new ~= full_coef then minetest.swap_node(pos,{name = "basic_machines:battery_".. full_coef_new}) end
 						return 
@@ -385,8 +376,6 @@ minetest.register_node("basic_machines:generator", {
 	groups = {cracky=3},
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)
-<<<<<<< HEAD
-=======
 
 		--check to prevent too many generators being placed at one place
 		if minetest.find_node_near(pos, 15, {"basic_machines:generator"}) then
@@ -403,7 +392,6 @@ minetest.register_node("basic_machines:generator", {
 		inv:set_size("fuel", 1*1); -- here generated power crystals are placed
 		inv:set_size("upgrade", 2*1); 
 		meta:set_int("upgrade",0); -- upgrade level determines quality of produced crystals
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 		
 		local name = placer:get_player_name()
 		local pinv = placer:get_inventory()
@@ -494,37 +482,11 @@ minetest.register_node("basic_machines:generator", {
 minetest.register_abm({ 
 	nodenames = {"basic_machines:generator"},
 	neighbors = {},
-<<<<<<< HEAD
 	interval = 25,
-=======
-	interval = 19,
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		local meta = minetest.get_meta(pos);
 		
-<<<<<<< HEAD
-		-- checks *** that is not the solution ***
-		--[[
-		local owner = meta:get_string("owner");
-		local gendata = genstat[owner];
-		local t = minetest.get_gametime();
-		if not gendata then genstat[owner] = {t,0} gendata = genstat[owner] end -- init: time, count
-		
-		if t-gendata[1] >= 19 then -- more than 19s elapsed since last time
-			gendata[1] = t; -- reset timer
-			gendata[2] = 0; -- reset activation count		
-		end
-		
-		gendata[2] = gendata[2] + 1 -- increase activation count
-		if gendata[2]>50 then
-			meta:set_string("infotext","error: more than 50 active generators")
-			return
-		end
-]]
-		
-=======
->>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 		local upgrade = meta:get_int("upgrade");
 		local inv = meta:get_inventory();
 		local stack = inv:get_stack("fuel", 1); 
