@@ -35,13 +35,10 @@ basic_machines.craft_recipes = {
 
 }
 
+
 basic_machines.craft_recipe_order = { -- order in which nodes appear
 	"keypad","light","grinder","mover", "battery","generator","detector", "distributor", "clock_generator","recycler","autocrafter","ball_spawner", "enviroment", "power_block", "power_cell", "coal_lump",
 }
-
-
-
-		
 
 local constructor_process = function(pos) 
 	
@@ -126,7 +123,7 @@ end
 minetest.register_node("basic_machines:constructor", {
 	description = "Constructor: used to make machines",
 	tiles = {"constructor.png"},
-	groups = {cracky=3, mesecon_effector_on = 1},
+	groups = {cracky=3},
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
@@ -171,13 +168,12 @@ minetest.register_node("basic_machines:constructor", {
 		return 0;
 	end,
 	
-	mesecons = {effector = { 
+	effector = { 
 		action_on = function (pos, node,ttl) 
 			if type(ttl)~="number" then ttl = 1 end
 			if ttl<0 then return end -- machines_TTL prevents infinite recursion
 			constructor_process(pos);
 		end
-		}
 	},
 	
 	on_receive_fields = function(pos, formname, fields, sender) 

@@ -5,13 +5,21 @@
 
 local enviro = {};
 enviro.skyboxes = {
+<<<<<<< HEAD
 	["default"]={type = "regular", tex = {}}, 
 	["space"]={type="skybox", tex={"sky_pos_y.png","sky_neg_y.png","sky_pos_z.png","sky_neg_z.png","sky_neg_x.png","sky_pos_x.png",}}, -- need textures installed!
 	--["space"]={type="skybox", tex={"basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png",}}, -- need textures installed!
 	["caves"]={type = "cavebox", tex = {"black.png","black.png","black.png","black.png","black.png","black.png",}},
+=======
+	["default"]={type = "regular", textures = {}}, 
+	["space"]={type="skybox", clouds = false,textures={"basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png","basic_machines_stars.png",}}, -- need textures installed!
+	["caves"]={type = "cavebox", textures = {"black.png","black.png","black.png","black.png","black.png","black.png",}},
+>>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 	};
 	
 local space_start = 1100;
+local exclusion_height = 6666; -- above all players without privs die and get teleported to spawn
+
 local ENABLE_SPACE_EFFECTS = false -- enable damage outside protected areas
 	
 local enviro_update_form = function (pos)
@@ -63,7 +71,7 @@ minetest.register_node("basic_machines:enviro", {
 	drawtype = "allfaces",
 	paramtype = "light",
 	param1=1,
-	groups = {cracky=3, mesecon_effector_on = 1},
+	groups = {cracky=3},
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)
 		local meta = minetest.env:get_meta(pos)
@@ -88,7 +96,7 @@ minetest.register_node("basic_machines:enviro", {
 		enviro_update_form(pos);
 	end,
 		
-	mesecons = {effector = { 
+	effector = { 
 		action_on = function (pos, node,ttl) 
 			local meta = minetest.get_meta(pos);
 			local machines = meta:get_int("machines");
@@ -121,7 +129,11 @@ minetest.register_node("basic_machines:enviro", {
 					
 					if admin == 1 then -- only admin can change skybox
 						local sky = enviro.skyboxes[skybox];
+<<<<<<< HEAD
 						player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
+=======
+						player:set_sky(sky);
+>>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 					end
 				end
 			end
@@ -143,7 +155,6 @@ minetest.register_node("basic_machines:enviro", {
 			
 			
 		end
-	}
 	},
 	
 	
@@ -223,7 +234,11 @@ local reset_player_physics = function(player)
 	if player then
 		player:set_physics_override({speed=1,jump=1,gravity=1}) -- value set for extreme test space spawn
 		local skybox = enviro.skyboxes["default"]; -- default skybox is "default"
+<<<<<<< HEAD
 		player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
+=======
+		player:set_sky(skybox);
+>>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 	end
 end
 
@@ -235,11 +250,19 @@ enviro_adjust_physics = function(player) -- adjust players physics/skybox 1 seco
 			if pos.y > space_start then -- is player in space or not?
 				player:set_physics_override({speed=1,jump=0.5,gravity=0.1}) -- value set for extreme test space spawn
 				local skybox = enviro.skyboxes["space"];
+<<<<<<< HEAD
 				player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
 			else
 				player:set_physics_override({speed=1,jump=1,gravity=1}) -- value set for extreme test space spawn
 				local skybox = enviro.skyboxes["default"];
 				player:set_sky({basecolor = 0, type = skybox["type"], textures = skybox["tex"]});
+=======
+				player:set_sky(skybox);
+			else
+				player:set_physics_override({speed=1,jump=1,gravity=1}) -- value set for extreme test space spawn
+				local skybox = enviro.skyboxes["default"];
+				player:set_sky(skybox);
+>>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 			end
 		end
 	end)
@@ -264,6 +287,9 @@ end
 
 local stimer = 0
 local enviro_space = {};
+local exclusion_zone = {};
+local moderator = {};
+
 minetest.register_globalstep(function(dtime)
 	stimer = stimer + dtime;
 	if stimer >= 5 then
@@ -272,7 +298,26 @@ minetest.register_globalstep(function(dtime)
 		for _,player in pairs(players) do
 			local name = player:get_player_name();
 			local pos = player:get_pos();
+<<<<<<< HEAD
 			local inspace=0; if pos.y>space_start then inspace = 1 end
+=======
+			local inspace=0; 
+			if pos.y>space_start then 
+				inspace = 1
+				if pos.y > exclusion_height then
+					local exclude = exclusion_zone[name];
+					if exclude == nil then
+						exclusion_zone[name] = not minetest.get_player_privs(name).include;
+						exclude = exclusion_zone[name]
+					end
+					if exclude then 
+						minetest.chat_send_all("exclusion zone alert: " .. name .. " " .. pos.x .. " " .. pos.y .. " " .. pos.z )
+						minetest.log("exclusion zone alert: " .. name .. " " .. pos.x .. " " .. pos.y .. " " .. pos.z )
+						player:set_pos({x=0,y=-100,z=0})
+					end
+				end
+			end
+>>>>>>> 56164fb61a20a5ed0314feb18c69cbf0a172a37b
 			local inspace0=enviro_space[name];
 			if inspace~=inspace0 then -- only adjust player enviroment ONLY if change occured ( earth->space or space->earth !)
 				enviro_space[name] = inspace;
@@ -286,7 +331,7 @@ minetest.register_globalstep(function(dtime)
 						local hp = player:get_hp();
 						
 						if hp>0 then
-							minetest.chat_send_player(name,"WARNING: you entered DEADLY RADIATION ZONE");
+							minetest.chat_send_player(name,"WARNING: you entered DEADLY RADIATION ZONE.");
 							local privs = minetest.get_player_privs(name)
 							if not privs.kick then player:set_hp(hp-15) end
 						end
@@ -325,7 +370,6 @@ end)
 	
 	-- drawtype = "glasslike",
 	-- paramtype = "light",
-	-- alpha =  150,
 	-- sunlight_propagates = true, -- Sunlight shines through
 	-- walkable     = false, -- Would make the player collide with the air node
 	-- pointable    = false, -- You can't select the node
@@ -375,6 +419,9 @@ minetest.register_on_punchplayer( -- bring gravity closer to normal with each pu
 	
 )
 
+minetest.register_privilege("include", {
+	description = "allow player to move in exclusion zone",
+})
 	
 
 -- RECIPE: extremely expensive

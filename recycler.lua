@@ -9,7 +9,7 @@ local no_recycle_list  = {
 	["dye:white"]=1,["dye:grey"]=1,["dye:dark_grey"]=1,["dye:black"]=1,
 	["dye:violet"]=1,["dye:blue"]=1,["dye:cyan"]=1,["dye:dark_green"]=1,
 	["dye:green"]=1,["dye:yellow"]=1,["dye:brown"]=1,["dye:orange"]=1,
-	["dye:red"]=1,["dye:magenta"]=1,["dye:pink"]=1,
+	["dye:red"]=1,["dye:magenta"]=1,["dye:pink"]=1,["default:mossycobble"]=1,
 }
 
 
@@ -166,7 +166,7 @@ end
 minetest.register_node("basic_machines:recycler", {
 	description = "Recycler - use to get some ingredients back from crafted things",
 	tiles = {"recycler.png"},
-	groups = {cracky=3, mesecon_effector_on = 1},
+	groups = {cracky=3},
 	sounds = default.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
@@ -207,13 +207,12 @@ minetest.register_node("basic_machines:recycler", {
 		return 0;
 	end,
 	
-	mesecons = {effector = { 
+	effector = { 
 		action_on = function (pos, node,ttl) 
 		if type(ttl)~="number" then ttl = 1 end
 		if ttl<0 then return end -- machines_TTL prevents infinite recursion
 		recycler_process(pos);
 	end
-	}
 	},
 	
 	on_receive_fields = function(pos, formname, fields, sender) 

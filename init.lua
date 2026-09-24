@@ -36,12 +36,18 @@ dofile(minetest.get_modpath("basic_machines").."/constructor.lua") -- enable cra
 
 dofile(minetest.get_modpath("basic_machines").."/protect.lua") -- enable interaction with players, adds local on protect/chat event handling
 
+-- MESECON functionality
+if mesecon then -- DO NOT REMOVE THIS CHECK or it wont work with mesecons
+	dofile(minetest.get_modpath("basic_machines").."/mesecon_adapter.lua")
+	basic_machines.craft_recipes["mesecon_adapter"] = {item = "basic_machines:mesecon_adapter", description = "interface between machines and mesecons", craft = {"default:mese_crystal_fragment"}, tex = "jeija_luacontroller_top"}
+	basic_machines.craft_recipe_order[1+#basic_machines.craft_recipe_order] = "mesecon_adapter"
+end
 -- OPTIONAL ADDITIONAL STUFF ( comment to disable )
 
 dofile(minetest.get_modpath("basic_machines").."/ball.lua") -- interactive flying ball, can activate blocks or be used as a weapon
 dofile(minetest.get_modpath("basic_machines").."/enviro.lua") -- enviro blocks that can change surrounding enviroment physics, uncomment spawn/join code to change global physics, disabled by default
+dofile(minetest.get_modpath("basic_machines").."/mesecon_doors.lua") -- if you want open/close doors with signal, also steel doors are made impervious to dig through, removal by repeat punch
 minetest.after(0, function() 
-	dofile(minetest.get_modpath("basic_machines").."/mesecon_doors.lua") -- if you want open/close doors with signal, also steel doors are made impervious to dig through, removal by repeat punch
 	dofile(minetest.get_modpath("basic_machines").."/mesecon_lights.lua") -- adds ability for other light blocks to toggle light
 end)
 
